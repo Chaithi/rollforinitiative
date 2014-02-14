@@ -23,6 +23,7 @@ import javax.swing.filechooser.*;
  * @author rthayeriii
  */
 public class MainWindow extends JFrame {
+  
     // Main method
     public static void main(String[] args)
     {
@@ -50,7 +51,6 @@ public class MainWindow extends JFrame {
      */
     public MainWindow() {
         initComponents();
-        changePanel.setVisible(false);
     }
     
     // Variable setters/getters
@@ -151,6 +151,7 @@ public class MainWindow extends JFrame {
         matrixTimerButton = new javax.swing.JButton();
         overwatchSpin = new javax.swing.JSpinner();
         owLabel = new javax.swing.JLabel();
+        tieButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -164,6 +165,7 @@ public class MainWindow extends JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Roll For Initiative");
         setBackground(new java.awt.Color(255, 255, 255));
+        setIconImages(null);
         setMaximumSize(new java.awt.Dimension(720, 400));
         setMinimumSize(new java.awt.Dimension(720, 400));
         setResizable(false);
@@ -216,6 +218,7 @@ public class MainWindow extends JFrame {
         totalInitLabel.setText("Total Initiative:");
 
         baseInitSpin.setModel(new javax.swing.SpinnerNumberModel(1, 0, 50, 1));
+        baseInitSpin.setEnabled(false);
 
         totalInitSpin.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(0), null, Integer.valueOf(1)));
 
@@ -351,10 +354,10 @@ public class MainWindow extends JFrame {
                     .addComponent(changeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
                     .addComponent(changeDiceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(changePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(changePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(changePanelLayout.createSequentialGroup()
-                        .addComponent(diceSpin)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(diceSpin, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addDiceBut))
                     .addGroup(changePanelLayout.createSequentialGroup()
                         .addComponent(scoreSpin, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -375,6 +378,8 @@ public class MainWindow extends JFrame {
                     .addComponent(diceSpin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addDiceBut)))
         );
+
+        changePanel.setVisible(false);
 
         removeButton.setText("Remove");
         removeButton.setEnabled(false);
@@ -529,6 +534,14 @@ public class MainWindow extends JFrame {
                     .addComponent(matrixTimerButton)))
         );
 
+        tieButton.setText("Tie Info");
+        tieButton.setEnabled(false);
+        tieButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tieButtonActionPerformed(evt);
+            }
+        });
+
         fileMenu.setText("File");
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
@@ -597,12 +610,13 @@ public class MainWindow extends JFrame {
                         .addComponent(addDiceButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(currentPlayerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(initPassLabel)
                         .addGap(18, 18, 18)
                         .addComponent(initLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(tieButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(nextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -611,7 +625,8 @@ public class MainWindow extends JFrame {
                     .addComponent(newPlayerPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(changePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(currentPlayerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -623,7 +638,8 @@ public class MainWindow extends JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(initPassLabel)
                             .addComponent(initLabel)
-                            .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tieButton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(currentPlayerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -788,6 +804,7 @@ public class MainWindow extends JFrame {
         nameField.setText("");
         totalInitSpin.setEnabled(true);
         numOfDiceSpin.setEnabled(false);
+        baseInitSpin.setEnabled(false);
         baseInitSpin.setValue(1);
         totalInitSpin.setValue(1);
         numOfDiceSpin.setValue(1);
@@ -806,11 +823,13 @@ public class MainWindow extends JFrame {
         if (npcCheck.isSelected())
         {
             totalInitSpin.setEnabled(false);
+            baseInitSpin.setEnabled(true);
             numOfDiceSpin.setEnabled(true);
         }
         else
         {
             totalInitSpin.setEnabled(true);
+            baseInitSpin.setEnabled(true);
             numOfDiceSpin.setEnabled(false);
         }
     }//GEN-LAST:event_npcCheckActionPerformed
@@ -823,6 +842,7 @@ public class MainWindow extends JFrame {
         boolean npc;
         int numOfDice = 1;
         boolean seize;
+        Player p1;
         
         if (nameField.getText().equals(""))
         {
@@ -849,7 +869,10 @@ public class MainWindow extends JFrame {
             // combat pass
             if (pass > 1)
                 totalInit -= ((pass - 1) * 10);
-            Player p1 = new Player(name, baseInit, totalInit, npc, numOfDice, seize);
+            if (npc)
+                p1 = new Player(name, baseInit, totalInit, numOfDice, seize);
+            else
+                p1 = new Player(name, totalInit, seize);
             addPlayer(p1);
             sortPlayers();
             newPlayerPanel.setVisible(false);
@@ -860,6 +883,7 @@ public class MainWindow extends JFrame {
     // Show the change score panel
     private void addOrRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addOrRemoveButtonActionPerformed
         changePanel.setVisible(true);
+        scoreSpin.setValue(0);
         changeLabel.setText("Score amount to change:");
         changeLabel.setVisible(true);
         scoreSpin.setVisible(true);
@@ -872,6 +896,7 @@ public class MainWindow extends JFrame {
     // Show the change dice panel. This is used if the +d6 number changes during combat
     private void addDiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDiceButtonActionPerformed
         changePanel.setVisible(true);
+        diceSpin.setValue(0);
         changeLabel.setVisible(false);
         scoreSpin.setVisible(false);
         addButton.setVisible(false);
@@ -970,6 +995,8 @@ public class MainWindow extends JFrame {
         }
         // Check if player has reached convergence
         p1.converge();
+        overwatchSpin.setValue(0);
+        checkOWButtonActionPerformed(evt);
     }//GEN-LAST:event_increaseOWButtonActionPerformed
 
     // Every 15 minutes after overwatch begins, add +2d6 to the overwatch score. 
@@ -992,6 +1019,12 @@ public class MainWindow extends JFrame {
             p1.modOverwatch(ow);
             p1.converge();
     }//GEN-LAST:event_matrixTimerButtonActionPerformed
+
+    private void tieButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tieButtonActionPerformed
+        JOptionPane.showMessageDialog(null, "GM can break ties via the ERIC method:\n"
+                + "Edge, Reaction, Intuition, Coin flip.\n"
+                + "GMs may also have tied players go at the same time.", "How to break ties", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_tieButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1049,13 +1082,14 @@ public class MainWindow extends JFrame {
     private javax.swing.JSpinner scoreSpin;
     private javax.swing.JCheckBox seizeCheck;
     private javax.swing.JLabel seizeLabel;
+    private javax.swing.JButton tieButton;
     private javax.swing.JLabel totalInitLabel;
     private javax.swing.JSpinner totalInitSpin;
     private javax.swing.JButton woundButton;
     // End of variables declaration//GEN-END:variables
 
 
-	private ArrayList<Player> playerList = new ArrayList<Player>(); // List of Player objects
+	private ArrayList<Player> playerList = new ArrayList<>(); // List of Player objects
 	int pass = 0; // Determine which initiative pass it is.
         
 	// Determine the final initiative score including the base initiative.
@@ -1115,7 +1149,7 @@ public class MainWindow extends JFrame {
         // Sort the list, then check list for null objects and remove from list.
         public void removeNull()
         {
-            Collections.sort(playerList, Player.Comparators.TOTALANDBASE);
+            Collections.sort(playerList, Player.Comparators.TOTAL);
             for (int i = 0; i < playerList.size(); i++)
             {
                 if (playerList.get(i) == null)
@@ -1130,7 +1164,7 @@ public class MainWindow extends JFrame {
                 if (pass > 0)
                 {
                     nextButton.setEnabled(true);
-                    initLabel.setText("Initiative pass: " + pass);
+                    initPassLabel.setText("Initiative pass: " + pass);
                 }
                 String[] list = new String[playerList.size()];
                 for (int i = 0; i < list.length; i++)
@@ -1181,6 +1215,7 @@ public class MainWindow extends JFrame {
                 nextButton.setText("Next");
                 nextRound();
             }
+            tieButton.setEnabled(false);
             String returnString = "";
             Player p1 = null;
             sortPlayers();
@@ -1202,6 +1237,7 @@ public class MainWindow extends JFrame {
                         {
                             returnString += " & " + s.toString();
                             s.setActionTaken(true);
+                            tieButton.setEnabled(true);
                             p1 = s;
                         }
                     }
@@ -1243,6 +1279,8 @@ public class MainWindow extends JFrame {
         
         public void nextRound()
         {
+            pass = 1;
+            initPassLabel.setText("Initiative Pass: 1");
             for (Player s: playerList)
             {
                 int score;
@@ -1254,9 +1292,7 @@ public class MainWindow extends JFrame {
                 {
                     do
                     {
-                        String inputValue = JOptionPane.showInputDialog(s.getName() + 
-                            "'s Base Initiative is " + s.getBaseInit() + 
-                            ".\nWhat is " + s.getName() + 
+                        String inputValue = JOptionPane.showInputDialog("What is " + s.getName() + 
                             "'s total initiative score this round?");
                         try
                         {

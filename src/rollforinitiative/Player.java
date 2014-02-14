@@ -28,15 +28,26 @@ public class Player implements Comparable<Player>, java.io.Serializable
         private int overwatch; // Track overwatch score.
         private boolean seize = false; // Determines if player is using Seize the Initiative.
 	
-	// Constructor
-	public Player(String name, int baseInit, int totalInit, boolean npc, int diceNumber, boolean seize)
+	// Constructor for NPCs
+	public Player(String name, int baseInit, int totalInit, int diceNumber, boolean seize)
 	{
 		this.name = name;
 		this.baseInit = baseInit;
 		this.totalInit = totalInit;
-		this.npc = npc;
+		this.npc = true;
 		this.actionTaken = false;
                 this.numOfDice = diceNumber;
+                this.overwatch = 0;
+                this.seize = seize;
+	}
+        
+        // Constructor for PCs
+        public Player(String name, int totalInit, boolean seize)
+	{
+		this.name = name;
+		this.totalInit = totalInit;
+		this.npc = false;
+		this.actionTaken = false;
                 this.overwatch = 0;
                 this.seize = seize;
 	}
@@ -179,7 +190,7 @@ public class Player implements Comparable<Player>, java.io.Serializable
 	@Override
 	public String toString()
 	{
-		return "[" + totalInit + "] " + name + " B:" + baseInit;
+		return "[" + totalInit + "] " + name;
 	}
 	
 	// Override the compareTo
@@ -198,8 +209,8 @@ public class Player implements Comparable<Player>, java.io.Serializable
 	// Comparator classes
 	public static class Comparators
 	{
-		// Sort by total initiative and then base initiative if there's a tie.
-		public static Comparator<Player> TOTALANDBASE = new Comparator<Player>()
+		// Sort by total initiative
+		public static Comparator<Player> TOTAL = new Comparator<Player>()
 		{
                     @Override
                     public int compare(Player o1, Player o2)
@@ -208,8 +219,6 @@ public class Player implements Comparable<Player>, java.io.Serializable
                         if (o1.seize && o2.seize || !o1.seize && !o2.seize)
                         {
                             int i = o2.totalInit - o1.totalInit;
-                            if (i == 0)
-                                i = o2.baseInit - o1.baseInit;
                             return i;
                         }
                         // If player 1 has Seized but 2 hasn't, sort player 1 higher
